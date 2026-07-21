@@ -28,7 +28,7 @@
             justify-content: center;
             align-items: center;
             /* Hardware accelerated glow across the entire mesh */
-            filter: drop-shadow(0 0 10px rgba(0, 255, 119, 0.7));
+            filter: drop-shadow(0 0 6px rgba(0, 255, 119, 0.45));
         }
 
         canvas {
@@ -87,7 +87,7 @@
         // 5. Create Glowing Vertex Points (White Dots)
         const pointsMaterial = new THREE.PointsMaterial({
             color: 0xffffff,
-            size: 0.05,
+            size: 0.15,
             transparent: true,
             opacity: 0.95
         });
