@@ -84,12 +84,35 @@
         const wireframe = new THREE.LineSegments(wireframeGeometry, lineMaterial);
         sphereGroup.add(wireframe);
 
+
+
+        function createCircularTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    
+    // Draw a white circular gradient or solid circle
+    const center = 32;
+    ctx.beginPath();
+    ctx.arc(center, center, 28, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+
+    const texture = new THREE.Texture(canvas);
+    texture.needsUpdate = true;
+    return texture;
+    } 
+
         // 5. Create Glowing Vertex Points (White Dots)
         const pointsMaterial = new THREE.PointsMaterial({
             color: 0xffffff,
             size: 0.09,
+            map: createCircularTexture(), // Maps the round canvas texture
             transparent: true,
-            opacity: 0.95
+            opacity: 0.95,
+            alphaTest: 0.5 // Removes the square background pixels around the circle
         });
         const points = new THREE.Points(geometry, pointsMaterial);
         sphereGroup.add(points);
