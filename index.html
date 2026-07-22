@@ -39,6 +39,7 @@
 <body>
 
     <div id="canvas-container"></div>
+    <button id="speak-btn" style="position: absolute; bottom: 30px; z-index: 10; padding: 10px 20px; background: rgba(0, 255, 119, 0.15); border: 1px solid #00ff77; color: #00ff77; font-family: sans-serif; border-radius: 4px; cursor: pointer; backdrop-filter: blur(5px);">Speak</button>
 
     <!-- Include Three.js via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -143,6 +144,25 @@
         }
 
         animate();
+
+
+        document.getElementById('speak-btn').addEventListener('click', () => {
+    if (!('speechSynthesis' in window)) return;
+    
+    const utterance = new SpeechSynthesisUtterance("Hello there, I am Tabernacle, how can I assist you today?");
+    utterance.rate = 0.95; // Slightly slower for a calm, composed delivery
+    utterance.pitch = 1.0;
+
+    // Look for a British English voice
+    const voices = window.speechSynthesis.getVoices();
+    const britishVoice = voices.find(v => v.lang === 'en-GB' || v.name.includes('UK') || v.name.includes('British'));
+    if (britishVoice) {
+        utterance.voice = britishVoice;
+    }
+
+    window.speechSynthesis.speak(utterance);
+});
+        
     </script>
 </body>
 </html>
