@@ -81,7 +81,7 @@
             transparent: true,
             opacity: 0.35,
             linewidth: 1,
-            depthWrite: true
+            depthWrite: false
         });
         const wireframe = new THREE.LineSegments(wireframeGeometry, lineMaterial);
         sphereGroup.add(wireframe);
@@ -106,6 +106,14 @@
     texture.needsUpdate = true;
     return texture;
     } 
+        // Add a solid dark core inside the wireframe to block back-side lines and create real depth
+const coreGeometry = new THREE.IcosahedronGeometry(radius * 0.98, detail);
+const coreMaterial = new THREE.MeshBasicMaterial({
+    color: 0x000502, // Near black with a tiny hint of deep green
+    transparent: false
+});
+const innerCore = new THREE.Mesh(coreGeometry, coreMaterial);
+sphereGroup.add(innerCore);
 
         // 5. Create Glowing Vertex Points (White Dots)
         const pointsMaterial = new THREE.PointsMaterial({
@@ -115,7 +123,7 @@
             transparent: true,
             opacity: 0.95,
             alphaTest: 0.5, // Removes the square background pixels around the circle
-            depthWrite: true
+            depthWrite: false
         });
         const points = new THREE.Points(geometry, pointsMaterial);
         sphereGroup.add(points);
