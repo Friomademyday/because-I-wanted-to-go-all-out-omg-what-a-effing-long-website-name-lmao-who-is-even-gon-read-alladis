@@ -149,15 +149,22 @@
         document.getElementById('speak-btn').addEventListener('click', () => {
     if (!('speechSynthesis' in window)) return;
     
-    const utterance = new SpeechSynthesisUtterance("Hello there, I am Tabernacle, how can I assist you today?");
-    utterance.rate = 0.95; // Slightly slower for a calm, composed delivery
-    utterance.pitch = 1.0;
+    window.speechSynthesis.cancel(); // Stop any overlapping audio
 
-    // Look for a British English voice
+    const utterance = new SpeechSynthesisUtterance("Hello there, I am Tabernacle, how can I assist you today?");
+    utterance.rate = 0.9;  // Slower pacing adds natural weight and maturity
+    utterance.pitch = 0.8; // Lower pitch removes the thin, high-pitched "cheesy" robot tone
+
     const voices = window.speechSynthesis.getVoices();
-    const britishVoice = voices.find(v => v.lang === 'en-GB' || v.name.includes('UK') || v.name.includes('British'));
-    if (britishVoice) {
-        utterance.voice = britishVoice;
+    
+    // Look for premium/natural British female voice markers in system libraries
+    const naturalVoice = voices.find(v => 
+        (v.lang === 'en-GB' || v.lang === 'en_GB') && 
+        (v.name.includes('Natural') || v.name.includes('Enhanced') || v.name.includes('Sonia') || v.name.includes('Serena') || v.name.includes('Libby'))
+    ) || voices.find(v => v.lang === 'en-GB' || v.name.includes('UK') || v.name.includes('British'));
+
+    if (naturalVoice) {
+        utterance.voice = naturalVoice;
     }
 
     window.speechSynthesis.speak(utterance);
